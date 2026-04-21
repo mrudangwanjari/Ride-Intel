@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Portal - Ride-Intel</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body class="portal-page">
+    <nav class="portal-nav">
+        <div class="nav-brand">RIDE-INTEL - User Portal</div>
+        <a href="login.html" class="btn btn-small">Logout</a>
+    </nav>
+
+    <div class="portal-container">
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="fare">💰 Fare Prediction</button>
+            <button class="tab-btn" data-tab="fuel">⛽ Fuel Calculator</button>
+        </div>
+
+        <!-- Fare Prediction Tab -->
+        <div class="tab-content active" id="fare-tab">
+            <div class="card">
+                <h2>Predict Your Ride Fare</h2>
+                <form id="fare-form">
+                    <div class="form-group">
+                        <label for="pickup">Pickup Location</label>
+                        <select id="pickup" required>
+                            <option value="">Select pickup area</option>
+                            <option value="Sitabuldi">Sitabuldi</option>
+                            <option value="Dharampeth">Dharampeth</option>
+                            <option value="MIHAN">MIHAN</option>
+                            <option value="Sadar">Sadar</option>
+                            <option value="Wardha Road">Wardha Road</option>
+                            <option value="Railway Station">Nagpur Railway Station</option>
+                            <option value="Airport">Airport</option>
+                            <option value="Hingna">Hingna</option>
+                            <option value="Kamptee">Kamptee</option>
+                            <option value="Butibori">Butibori</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="dropoff">Drop Location</label>
+                        <select id="dropoff" required>
+                            <option value="">Select drop area</option>
+                            <option value="Sitabuldi">Sitabuldi</option>
+                            <option value="Dharampeth">Dharampeth</option>
+                            <option value="MIHAN">MIHAN</option>
+                            <option value="Sadar">Sadar</option>
+                            <option value="Wardha Road">Wardha Road</option>
+                            <option value="Railway Station">Nagpur Railway Station</option>
+                            <option value="Airport">Airport</option>
+                            <option value="Hingna">Hingna</option>
+                            <option value="Kamptee">Kamptee</option>
+                            <option value="Butibori">Butibori</option>
+                        </select>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="ride-time">Time</label>
+                            <input type="time" id="ride-time" required step="60">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="vehicle">Vehicle Type</label>
+                            <select id="vehicle" required>
+                                <option value="">Select vehicle</option>
+                                <option value="Bike">Bike</option>
+                                <option value="Auto Rickshaw">Auto Rickshaw</option>
+                                <option value="Sedan">Sedan</option>
+                                <option value="SUV">SUV</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-full">Predict Fare</button>
+                </form>
+
+                <div id="fare-result" class="result-card" style="display: none;">
+                    <h3>Fare Prediction</h3>
+                    <div class="result-main">
+                        <span class="result-label">Estimated Fare</span>
+                        <span class="result-value" id="fare-amount">₹0</span>
+                    </div>
+                    <div class="result-details">
+                        <div class="detail-item">
+                            <span class="detail-label">Distance</span>
+                            <span class="detail-value" id="fare-distance">0 km</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Surge Multiplier</span>
+                            <span class="detail-value" id="fare-surge">1.0x</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Confidence</span>
+                            <span class="detail-value" id="fare-confidence">0%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Fuel Calculator Tab -->
+        <div class="tab-content" id="fuel-tab">
+            <div class="card">
+                <h2>Fuel Cost Calculator</h2>
+                <form id="fuel-form">
+                    <div class="form-group">
+                        <label for="fuel-vehicle">Vehicle Type</label>
+                        <select id="fuel-vehicle" required>
+                            <option value="">Select vehicle</option>
+                            <option value="Bike">Bike (45 km/l)</option>
+                            <option value="Auto Rickshaw">Auto Rickshaw (25 km/l)</option>
+                            <option value="Sedan">Sedan (15 km/l)</option>
+                            <option value="SUV">SUV (10 km/l)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="distance">Distance (km)</label>
+                        <input type="number" id="distance" min="1" step="0.1" placeholder="Enter distance" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="fuel-price">Fuel Price (₹/liter)</label>
+                        <input type="number" id="fuel-price" value="105" min="1" step="0.1" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-full">Calculate Cost</button>
+                </form>
+
+                <div id="fuel-result" class="result-card" style="display: none;">
+                    <h3>Fuel Cost Estimate</h3>
+                    <div class="result-main">
+                        <span class="result-label">Total Fuel Cost</span>
+                        <span class="result-value" id="fuel-cost">₹0</span>
+                    </div>
+                    <div class="result-details">
+                        <div class="detail-item">
+                            <span class="detail-label">Fuel Required</span>
+                            <span class="detail-value" id="fuel-required">0 L</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Efficiency</span>
+                            <span class="detail-value" id="fuel-efficiency">0 km/l</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Cost per km</span>
+                            <span class="detail-value" id="cost-per-km">₹0</span>
+                        </div>
+                    </div>
+                    <div class="insight-box">
+                        <strong>💡 Cost Optimization Insight:</strong>
+                        <p id="fuel-insight"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/fare-prediction.js"></script>
+    <script src="js/fuel-calculator.js"></script>
+    <script>
+        // Tab switching
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const tab = btn.dataset.tab;
+                
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                
+                btn.classList.add('active');
+                document.getElementById(tab + '-tab').classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

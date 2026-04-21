@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Ride-Intel</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body class="login-page">
+    <div class="animated-bg"></div>
+    
+    <div class="login-container">
+        <div class="login-card">
+            <div class="login-header">
+                <h1>RIDE-INTEL</h1>
+                <p>Choose Your Portal</p>
+            </div>
+
+            <div class="login-options">
+                <button class="login-btn user-btn" onclick="window.location.href='user-portal.html'">
+                    <span class="login-icon">👤</span>
+                    <span class="login-text">User Login</span>
+                    <span class="login-hint">Book rides & predict fares</span>
+                </button>
+
+                <button class="login-btn driver-btn" onclick="window.location.href='driver-portal.html'">
+                    <span class="login-icon">🚗</span>
+                    <span class="login-text">Driver Login</span>
+                    <span class="login-hint">Access demand intelligence</span>
+                </button>
+            </div>
+
+            <div class="login-footer">
+                <p>Demo Mode - No credentials required</p>
+                <a href="index.html" class="back-link">← Back to Home</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
