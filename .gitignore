@@ -16,3 +16,6 @@ desktop.ini
 # Temporary files
 *.tmp
 *.temp
+
+# Old/backup folders
+smart-ride-assistant/
