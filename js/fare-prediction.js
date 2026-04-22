@@ -124,4 +124,9 @@ document.getElementById('fare-form').addEventListener('submit', function(e) {
     const resultCard = document.getElementById('fare-result');
     resultCard.style.display = 'block';
     resultCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+    // Show route on Google Map
+    if (typeof showRouteOnMap === 'function') {
+        showRouteOnMap(pickup, dropoff);
+    }
 });

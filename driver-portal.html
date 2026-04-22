@@ -21,6 +21,7 @@
             <button class="tab-btn" data-tab="traffic">🚦 Traffic Suggestion</button>
             <button class="tab-btn" data-tab="earnings">💸 Earnings Estimator</button>
             <button class="tab-btn" data-tab="visualization">📊 Demand Chart</button>
+            <button class="tab-btn" data-tab="map">🗺️ Live Map</button>
         </div>
 
         <!-- Demand Prediction Tab -->
@@ -45,12 +46,10 @@
                             <option value="Butibori">Butibori</option>
                         </select>
                     </div>
-
                     <div class="form-group">
                         <label for="demand-time">Time</label>
                         <input type="time" id="demand-time" required step="60">
                     </div>
-
                     <button type="submit" class="btn btn-primary btn-full">Predict Demand</button>
                 </form>
 
@@ -100,7 +99,6 @@
                             <option value="Butibori">Butibori</option>
                         </select>
                     </div>
-
                     <button type="submit" class="btn btn-primary btn-full">Check Traffic</button>
                 </form>
 
@@ -125,7 +123,6 @@
                         <label for="hours-worked">Hours Worked</label>
                         <input type="number" id="hours-worked" min="1" max="24" step="0.5" placeholder="Enter hours" required>
                     </div>
-
                     <div class="form-group">
                         <label for="earnings-area">Primary Area</label>
                         <select id="earnings-area" required>
@@ -142,7 +139,6 @@
                             <option value="Butibori">Butibori</option>
                         </select>
                     </div>
-
                     <div class="form-group">
                         <label for="earnings-vehicle">Vehicle Type</label>
                         <select id="earnings-vehicle" required>
@@ -153,7 +149,6 @@
                             <option value="SUV">SUV</option>
                         </select>
                     </div>
-
                     <button type="submit" class="btn btn-primary btn-full">Calculate Earnings</button>
                 </form>
 
@@ -181,21 +176,45 @@
             </div>
         </div>
 
-        <!-- Demand Visualization Tab -->
+        <!-- Demand Chart Tab -->
         <div class="tab-content" id="visualization-tab">
             <div class="card">
                 <h2>Demand Visualization</h2>
                 <p class="card-subtitle">Real-time demand across Nagpur areas</p>
-                
                 <div class="form-group">
                     <label for="chart-time">Select Time</label>
                     <input type="time" id="chart-time" value="09:00">
                 </div>
-                
                 <button class="btn btn-primary" onclick="updateDemandChart()">Update Chart</button>
-                
                 <div class="chart-container">
                     <canvas id="demandChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Live Map Tab -->
+        <div class="tab-content" id="map-tab">
+            <div class="card map-card">
+                <h2>🗺️ Live Demand Map</h2>
+                <p class="card-subtitle">Real-time demand heatmap with live traffic overlay across Nagpur</p>
+
+                <div class="map-controls">
+                    <div class="form-group map-time-group">
+                        <label for="map-time-input">Update demand for time:</label>
+                        <input type="time" id="map-time-input" value="09:00">
+                        <button class="btn btn-primary" onclick="onMapTimeChange()">Update Map</button>
+                    </div>
+                    <button id="traffic-toggle-btn" class="btn btn-secondary" onclick="toggleTrafficLayer()">
+                        🚦 Hide Traffic
+                    </button>
+                </div>
+
+                <div id="driver-map" class="map-container map-large"></div>
+
+                <div class="map-legend">
+                    <span class="legend-item"><span class="legend-dot" style="background:#ff4444;"></span> High Demand</span>
+                    <span class="legend-item"><span class="legend-dot" style="background:#ff9900;"></span> Medium Demand</span>
+                    <span class="legend-item"><span class="legend-dot" style="background:#00ff88;"></span> Low Demand</span>
                 </div>
             </div>
         </div>
@@ -206,19 +225,39 @@
     <script src="js/traffic-suggestion.js"></script>
     <script src="js/earnings-estimator.js"></script>
     <script src="js/demand-chart.js"></script>
+    <script src="js/maps.js"></script>
+    <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD6hbww8suMxQM4u4oIOSzADUK2HaArjvA&callback=initMaps&libraries=places">
+    </script>
     <script>
         // Tab switching
         document.querySelectorAll('.tab-btn').forEach(btn => {
             btn.addEventListener('click', () => {
                 const tab = btn.dataset.tab;
-                
                 document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
                 document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-                
                 btn.classList.add('active');
                 document.getElementById(tab + '-tab').classList.add('active');
             });
         });
+
+        // Set current time on load
+        window.addEventListener('load', () => {
+            const now = new Date();
+            const hh = String(now.getHours()).padStart(2, '0');
+            const mm = String(now.getMinutes()).padStart(2, '0');
+            document.getElementById('demand-time').value = `${hh}:${mm}`;
+            document.getElementById('map-time-input').value = `${hh}:${mm}`;
+        });
+
+        // Update map markers when time changes
+        function onMapTimeChange() {
+            const val = document.getElementById('map-time-input').value;
+            if (val) {
+                const hour = parseInt(val.split(':')[0]);
+                updateMapDemand(hour);
+            }
+        }
     </script>
 </body>
 </html>
