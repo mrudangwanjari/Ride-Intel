@@ -35,12 +35,13 @@ function initUserMap() {
     if (!mapEl) return;
 
     userMap = new google.maps.Map(mapEl, {
-        center: { lat: 21.1458, lng: 79.0882 }, // Nagpur center
+        center: { lat: 21.1458, lng: 79.0882 },
         zoom: 12,
-        styles: darkMapStyle(),
+        mapTypeId: 'satellite',
+        tilt: 0,
         disableDefaultUI: false,
         zoomControl: true,
-        mapTypeControl: false,
+        mapTypeControl: true,
         streetViewControl: false,
         fullscreenControl: true
     });
@@ -143,10 +144,11 @@ function initDriverMap() {
     driverMap = new google.maps.Map(mapEl, {
         center: { lat: 21.1458, lng: 79.0882 },
         zoom: 11,
-        styles: darkMapStyle(),
+        mapTypeId: 'satellite',
+        tilt: 0,
         disableDefaultUI: false,
         zoomControl: true,
-        mapTypeControl: false,
+        mapTypeControl: true,
         streetViewControl: false,
         fullscreenControl: true
     });
