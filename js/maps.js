@@ -37,9 +37,8 @@ function initUserMap() {
     userMap = new google.maps.Map(mapEl, {
         center: { lat: 21.1458, lng: 79.0882 },
         zoom: 12,
-        mapTypeId: 'satellite',
+        mapTypeId: 'hybrid',   // satellite + labels
         tilt: 0,
-        disableDefaultUI: false,
         zoomControl: true,
         mapTypeControl: true,
         streetViewControl: false,
@@ -144,9 +143,8 @@ function initDriverMap() {
     driverMap = new google.maps.Map(mapEl, {
         center: { lat: 21.1458, lng: 79.0882 },
         zoom: 11,
-        mapTypeId: 'satellite',
+        mapTypeId: 'hybrid',   // satellite + labels
         tilt: 0,
-        disableDefaultUI: false,
         zoomControl: true,
         mapTypeControl: true,
         streetViewControl: false,
@@ -199,15 +197,12 @@ function plotDemandMarkers(hour) {
             `
         });
 
-        marker.addListener('click', () => {
-            infoWindow.open(driverMap, marker);
-        });
-
+        marker.addListener('click', () => infoWindow.open(driverMap, marker));
         driverMarkers.push(marker);
     });
 }
 
-// Get demand level for map (uses same logic as demand-prediction.js)
+// Get demand level for map
 function getDemandLevelForMap(area, hour) {
     const patterns = {
         'Sitabuldi':       { morning: [7,8,9,10],    evening: [17,18,19,20],    base: 'medium' },
@@ -224,7 +219,6 @@ function getDemandLevelForMap(area, hour) {
 
     const p = patterns[area];
     if (!p) return 'low';
-
     if (p.morning.includes(hour) || p.evening.includes(hour)) return 'high';
     if (hour >= 22 || hour < 6) return 'low';
     return p.base === 'high' ? 'medium' : p.base;
@@ -253,30 +247,6 @@ function toggleTrafficLayer() {
 // Update demand markers when time changes
 function updateMapDemand(hour) {
     plotDemandMarkers(hour);
-}
-
-// ─────────────────────────────────────────────
-// DARK MAP STYLE
-// ─────────────────────────────────────────────
-
-function darkMapStyle() {
-    return [
-        { elementType: 'geometry',                                    stylers: [{ color: '#0a0a0a' }] },
-        { elementType: 'labels.text.stroke',                          stylers: [{ color: '#0a0a0a' }] },
-        { elementType: 'labels.text.fill',                            stylers: [{ color: '#888888' }] },
-        { featureType: 'road',        elementType: 'geometry',        stylers: [{ color: '#1a1a1a' }] },
-        { featureType: 'road',        elementType: 'geometry.stroke', stylers: [{ color: '#212121' }] },
-        { featureType: 'road',        elementType: 'labels.text.fill',stylers: [{ color: '#8a8a8a' }] },
-        { featureType: 'road.highway',elementType: 'geometry',        stylers: [{ color: '#2c2c2c' }] },
-        { featureType: 'road.highway',elementType: 'geometry.stroke', stylers: [{ color: '#1a1a1a' }] },
-        { featureType: 'road.highway',elementType: 'labels.text.fill',stylers: [{ color: '#DFFF00' }] },
-        { featureType: 'water',       elementType: 'geometry',        stylers: [{ color: '#111111' }] },
-        { featureType: 'water',       elementType: 'labels.text.fill',stylers: [{ color: '#3d3d3d' }] },
-        { featureType: 'poi',         elementType: 'labels',          stylers: [{ visibility: 'off' }] },
-        { featureType: 'transit',     elementType: 'labels',          stylers: [{ visibility: 'off' }] },
-        { featureType: 'administrative', elementType: 'geometry',     stylers: [{ color: '#2a2a2a' }] },
-        { featureType: 'administrative.locality', elementType: 'labels.text.fill', stylers: [{ color: '#DFFF00' }] }
-    ];
 }
 
 // ─────────────────────────────────────────────
